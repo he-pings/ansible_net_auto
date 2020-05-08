@@ -1,0 +1,17 @@
+---
+
+- name: Gather Show IP Int Brief
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+  tasks:
+
+    - name: Task1 Run "sh ip int brief"
+      ios_command:
+         commands: "show ip int brief"
+      register: output
+
+    - name: Display Output
+      debug: var=output.stdout
+    - name: Display Output
+      debug: var=output.stdout_lines

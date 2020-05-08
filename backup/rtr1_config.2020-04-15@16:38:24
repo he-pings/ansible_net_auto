@@ -1,0 +1,158 @@
+Building configuration...
+
+Current configuration : 2006 bytes
+!
+! Last configuration change at 10:34:56 EET Mon Apr 13 2020
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname rtr1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip domain name nicky.local
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback10
+ ip address 62.6.89.38 255.255.255.255
+!
+interface Ethernet0/0
+ description Link to rtr2
+ ip address 10.12.12.1 255.255.255.0
+!
+interface Ethernet0/1
+ description Link to rtr3
+ ip address 10.13.13.1 255.255.255.0
+!
+interface Ethernet0/2
+ description Link to rtr4
+ ip address 10.14.14.1 255.255.255.0
+!
+interface Ethernet0/3
+ description Link to rtr5
+ ip address 10.15.15.1 255.255.255.0
+!
+interface Ethernet1/0
+ description Link to rtr6
+ ip address 10.16.16.1 255.255.255.0
+!
+interface Ethernet1/1
+ ip address 10.253.0.1 255.255.255.0
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+interface Ethernet2/0
+ no ip address
+ shutdown
+!
+interface Ethernet2/1
+ no ip address
+ shutdown
+!
+interface Ethernet2/2
+ no ip address
+ shutdown
+!
+interface Ethernet2/3
+ no ip address
+ shutdown
+!
+router bgp 12641
+ bgp router-id 62.6.89.38
+ bgp log-neighbor-changes
+ network 62.6.89.38 mask 255.255.255.255
+ neighbor 10.253.0.9 remote-as 64100
+ neighbor 10.253.0.21 remote-as 64101
+ neighbor 10.253.0.80 remote-as 1
+ neighbor 10.253.0.80 ebgp-multihop 2
+ neighbor 10.253.0.80 update-source Loopback10
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 10.253.0.80 255.255.255.255 10.1.1.1
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ privilege level 15
+ login local
+ transport input ssh
+!
+!
+end
