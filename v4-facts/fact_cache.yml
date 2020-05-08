@@ -1,0 +1,12 @@
+---
+- name: Cache Device Facts to ./fact_cache directory
+  connection: network_cli
+  gather_facts: true
+  hosts: routers
+  tasks:
+
+          #  - name: IOS facts from devices
+          #ios_facts:
+          #gather_subset: all
+          #register: result
+

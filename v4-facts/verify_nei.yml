@@ -1,0 +1,23 @@
+---
+- name: Fact Check
+  connection: network_cli
+  gather_facts: false
+  hosts: rtr1
+  tasks:
+
+  - name: Display BGP Peer IP
+    debug:
+      msg: "Hostname {{ hostvars['rtr3'].ansible_net_hostname }} BGP Peer IP is {{ hostvars['rtr3'].ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] }}"
+
+  - name: Display BGP Peer IP
+    debug:
+      msg: "Hostname {{ hostvars['rtr4'].ansible_net_hostname }} BGP Peer IP is {{ hostvars['rtr4'].ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] }}"
+
+  - name: Display BGP Peer IP
+    debug:
+      msg: "Hostname {{ hostvars['rtr5'].ansible_net_hostname }} BGP Peer IP is {{ hostvars['rtr5'].ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] }}"
+
+  - name: Display BGP Peer IP
+    debug:
+      msg: "Hostname {{ hostvars['rtr6'].ansible_net_hostname }} BGP Peer IP is {{ hostvars['rtr6'].ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] }}"
+

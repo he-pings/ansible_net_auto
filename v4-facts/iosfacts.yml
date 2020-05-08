@@ -1,0 +1,19 @@
+---
+- name: Collect ios_facts, display result + demonstrate content and structure of facts
+  connection: network_cli
+  gather_facts: false
+  hosts: routers
+  tasks:
+
+  - name: IOS facts from devices
+    ios_facts:
+      gather_subset: all
+    register: result
+
+  - name: Display All facts Collected
+    debug: var=result
+
+  - name: Display Ethernet 0/1 IP address
+    debug:
+      msg: "Hostname {{ ansible_net_hostname }} BGP Peer IP is {{ ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] }}"
+
