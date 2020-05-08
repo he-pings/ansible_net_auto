@@ -1,0 +1,29 @@
+---
+
+- name: Deploy NTP Configuration
+  connection: network_cli
+  gather_facts: false
+  hosts: routers
+  
+  vars:
+          ntp_servers: 
+             ntp1: "10.1.1.1" 
+             ntp2: "10.2.2.2"
+  tasks:
+
+    - name:  Configure NTP on all Devices
+      ios_config:
+         lines: 
+           - no ntp server {{item.value}}
+      with_dict:
+         - "{{ntp_servers}}"
+
+
+    - name: Verify NTP Configuration 
+      ios_command: 
+         commands: show ntp config
+      register: result
+
+    - name: Display NTP Config to Screen
+      debug: var=result.stdout_lines
+
