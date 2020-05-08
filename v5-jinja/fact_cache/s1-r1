@@ -1,0 +1,252 @@
+{
+    "_ansible_facts_gathered": true,
+    "ansible_net_all_ipv4_addresses": [
+        "10.12.12.1",
+        "10.2.0.1",
+        "10.2.0.9",
+        "10.3.0.1",
+        "10.3.0.9",
+        "10.253.0.1"
+    ],
+    "ansible_net_all_ipv6_addresses": [],
+    "ansible_net_api": "cliconf",
+    "ansible_net_config": "!\n! Last configuration change at 18:00:25 EET Sat Apr 18 2020 by cisco\n!\nversion 15.4\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nno service password-encryption\n!\nhostname s1-r1\n!\nboot-start-marker\nboot-end-marker\n!\n!\n!\nno aaa new-model\nclock timezone EET 2 0\nmmi polling-interval 60\nno mmi auto-configure\nno mmi pvc\nmmi snmp-timeout 180\n!\n!\n!\n!\n!\n!\n!\n!\n\n\n!\n!\n!\n!\nip domain name nicky.local\nip cef\nlogin on-success log\nno ipv6 cef\n!\nmultilink bundle-name authenticated\n!\n!\n!\n!\n!\n!\n!\n!\nusername cisco privilege 15 password 0 cisco\n!\nredundancy\n!\n!\n! \n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\ninterface Ethernet0/0\n description Link to rtr2\n ip address 10.12.12.1 255.255.255.0\n!\ninterface Ethernet0/1\n description Link to rtr3\n ip address 10.2.0.1 255.255.255.252\n!\ninterface Ethernet0/2\n description Link to rtr4\n ip address 10.2.0.9 255.255.255.252\n!\ninterface Ethernet0/3\n description Link to rtr5\n ip address 10.3.0.1 255.255.255.252\n!\ninterface Ethernet1/0\n description Link to rtr6\n ip address 10.3.0.9 255.255.255.252\n!\ninterface Ethernet1/1\n ip address 10.253.0.1 255.255.255.0\n no cdp log mismatch duplex\n!\ninterface Ethernet1/2\n no ip address\n shutdown\n!\ninterface Ethernet1/3\n no ip address\n shutdown\n!\ninterface Ethernet2/0\n no ip address\n shutdown\n!\ninterface Ethernet2/1\n no ip address\n shutdown\n!\ninterface Ethernet2/2\n no ip address\n shutdown\n!\ninterface Ethernet2/3\n no ip address\n shutdown\n!\nip forward-protocol nd\n!\n!\nno ip http server\nno ip http secure-server\nip route 10.253.0.80 255.255.255.255 10.1.1.1\n!\n!\n!\n!\ncontrol-plane\n!\n!\n!\n!\n!\n!\n!\n!\nline con 0\n logging synchronous\nline aux 0\nline vty 0 4\n privilege level 15\n login local\n transport input ssh\n!\nntp server 10.1.1.1\nntp server 10.2.2.2\nevent manager applet CLIlog\n event cli pattern \".*\" sync no skip no\n action 1.0 syslog priority informational msg \"$_cli_msg\"\n action 2.0 set _exit_status \"1\"\n!\nend",
+    "ansible_net_filesystems": [
+        "system:"
+    ],
+    "ansible_net_filesystems_info": {
+        "system:": {}
+    },
+    "ansible_net_gather_network_resources": [],
+    "ansible_net_gather_subset": [
+        "default",
+        "interfaces",
+        "config",
+        "hardware"
+    ],
+    "ansible_net_hostname": "s1-r1",
+    "ansible_net_image": "unix:/opt/unetlab/addons/iol/bin/i86bi_linux-adventerprisek9-ms.154-",
+    "ansible_net_interfaces": {
+        "Ethernet0/0": {
+            "bandwidth": 10000,
+            "description": "Link to rtr2",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.12.12.1",
+                    "subnet": "24"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3100",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet0/1": {
+            "bandwidth": 10000,
+            "description": "Link to rtr3",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.2.0.1",
+                    "subnet": "30"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3110",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet0/2": {
+            "bandwidth": 10000,
+            "description": "Link to rtr4",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.2.0.9",
+                    "subnet": "30"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3120",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet0/3": {
+            "bandwidth": 10000,
+            "description": "Link to rtr5",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.3.0.1",
+                    "subnet": "30"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3130",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet1/0": {
+            "bandwidth": 10000,
+            "description": "Link to rtr6",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.3.0.9",
+                    "subnet": "30"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3101",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet1/1": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.253.0.1",
+                    "subnet": "24"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "aabb.cc00.3111",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "AmdP2"
+        },
+        "Ethernet1/2": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3121",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        },
+        "Ethernet1/3": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3131",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        },
+        "Ethernet2/0": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3102",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        },
+        "Ethernet2/1": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3112",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        },
+        "Ethernet2/2": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3122",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        },
+        "Ethernet2/3": {
+            "bandwidth": 10000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "aabb.cc00.3132",
+            "mediatype": null,
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "AmdP2"
+        }
+    },
+    "ansible_net_iostype": "IOS",
+    "ansible_net_memfree_mb": 805824.32421875,
+    "ansible_net_memtotal_mb": 884857.66015625,
+    "ansible_net_neighbors": {
+        "Ethernet0/0": [
+            {
+                "host": "s1-r2.nicky.local",
+                "port": "Ethernet0/0"
+            }
+        ],
+        "Ethernet0/1": [
+            {
+                "host": "S2-R1.nicky.local",
+                "port": "Ethernet0/1"
+            }
+        ],
+        "Ethernet0/2": [
+            {
+                "host": "S2-R2.nicky.local",
+                "port": "Ethernet0/1"
+            }
+        ],
+        "Ethernet0/3": [
+            {
+                "host": "s3-r1.nicky.local",
+                "port": "Ethernet0/1"
+            }
+        ],
+        "Ethernet1/0": [
+            {
+                "host": "s3-r2.nicky.local",
+                "port": "Ethernet0/1"
+            }
+        ],
+        "Ethernet1/1": [
+            {
+                "host": "MGT-SW",
+                "port": "GigabitEthernet1/3"
+            }
+        ]
+    },
+    "ansible_net_python_version": "3.6.8",
+    "ansible_net_serialnum": "67110961",
+    "ansible_net_system": "ios",
+    "ansible_net_version": "15.4(2)T4",
+    "ansible_network_resources": {},
+    "discovered_interpreter_python": "/usr/libexec/platform-python"
+}

@@ -1,0 +1,51 @@
+---
+
+- name: Core Routers BGP Config Generation
+  connection: network_cli
+  gather_facts: false
+  hosts: PE
+  tasks:
+
+    - name: Generate Core Routers BGP Config from Jinja2 Templates
+      template:
+         src: ./templates/core_rtrs.j2
+         dest: "./output/{{inventory_hostname}}.cre_routing.conf" 
+
+    - name: Deploy BGP Config to Core Routers
+      ios_config:
+         src: ./output/{{inventory_hostname}}.cre_routing.conf
+         save_when: modified
+
+- name: Branch LAN Config Generation
+  connection: network_cli
+  gather_facts: false
+  hosts: switches
+  tasks:
+
+    - name: Generate Branch SW's VLAN & OSPF Config from Jinja2 Templates
+      template:
+         src: ./templates/branch_sw.j2
+         dest: "./output/{{inventory_hostname}}.lan.conf" 
+
+    - name: Deploy VLAN & OSPF Conf to Branch SW's
+      ios_config:
+         src: ./output/{{inventory_hostname}}.lan.conf
+         save_when: modified
+
+- name: Branch Routers OSPF & BGP Config Generation
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+  tasks:
+
+    - name: Generate OSPF & BGP Config from Jinja2 Templates
+      template:
+         src: ./templates/branch_routing.all
+         dest: "./output/{{inventory_hostname}}.br_routing.conf" 
+
+    - name: Deploy OSPF & BGP Config to Branch Routers
+      ios_config:
+         src: ./output/{{inventory_hostname}}.br_routing.conf
+         save_when: modified
+
+

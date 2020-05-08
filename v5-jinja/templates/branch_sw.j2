@@ -1,0 +1,24 @@
+{% for i in VLANS %}
+vlan {{ i.id }}
+ name {{ i.name}}
+!
+{% endfor %}
+!
+interface range GigabitEthernet0/0 - 1
+no switchport
+ip ospf network point-to-point
+ip ospf 100 area 1
+!
+{% for i in VLANS %}
+interface vlan {{ i.id }}
+ip address 10.{{siteid}}.{{i.id}}.1 255.255.255.0
+ip ospf 100 area 1
+no shutdown
+!
+{% endfor %}
+!
+router ospf 100
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+!

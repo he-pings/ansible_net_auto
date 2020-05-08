@@ -1,0 +1,9 @@
+router bgp {{65000+siteid}}
+ bgp log-neighbor-changes
+ neighbor {{ ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] | ipmath(-1) }} remote-as {{ 65000+hostvars['s1-r1'].siteid}}
+ neighbor {{ ansible_net_interfaces['Ethernet0/2']['ipv4'].0['address'] | ipmath(-1) }} remote-as {{ 65000+hostvars['s1-r2'].siteid}}
+ !
+ address-family ipv4
+  redistribute ospf 100
+  neighbor {{ ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] | ipmath(-1) }} activate
+  neighbor {{ ansible_net_interfaces['Ethernet0/2']['ipv4'].0['address'] | ipmath(-1) }} activate

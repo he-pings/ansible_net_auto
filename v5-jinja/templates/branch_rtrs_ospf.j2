@@ -1,0 +1,10 @@
+interface Ethernet0/0
+ ip ospf network point-to-point
+ ip ospf 100 area 1
+!
+router ospf 100
+ passive-interface default
+ no passive-interface Ethernet0/0
+ default-information originate
+!
+
