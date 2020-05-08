@@ -6,7 +6,7 @@ https://www.youtube.com/channel/UCXEd_waNeuE3pyGAo05ETnw
 
 Each video will be added as a separate branch. With each branch will be a sub-directory using the following naming convention
 
-v((number))-((text))  for example 
+v<<number>>-<<text>>  for example 
 v3-vars 
 v4-facts 
 
