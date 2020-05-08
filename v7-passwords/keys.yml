@@ -1,0 +1,24 @@
+---
+
+- name: Deploy SSH Keys to All Network Devices 
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+  
+
+  tasks:
+
+    - name:  Remove old ssh keys 
+      ios_config:
+         lines: 
+           - no ip ssh pubkey-chain
+
+    - name:  Configure ssh keys 
+      ios_config:
+         lines: 
+           - ip ssh pubkey-chain
+           - username daveyn
+           - key-hash ssh-rsa 6E3C5F9C2CFC82D71043F0E8EB495A5A daveyn@localhost.localdomain
+           - exit
+           - exit
+         save_when: modified
