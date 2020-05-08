@@ -1,0 +1,22 @@
+
+[PE]
+s1-r1 ansible_host=10.253.0.1 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=1
+s1-r2 ansible_host=10.253.0.2 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=1
+
+[CE]
+s2-r1 ansible_host=10.253.0.3 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=2
+s2-r2 ansible_host=10.253.0.4 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=2
+s3-r1 ansible_host=10.253.0.5 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=3
+s3-r2 ansible_host=10.253.0.6 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=3
+
+[routers:children]
+PE
+CE
+
+[switches]
+s2-sw1 ansible_host=10.253.0.11 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=2
+s3-sw1 ansible_host=10.253.0.21 ansible_network_os=ios ansible_user=cisco ansible_password=cisco siteid=3
+
+[branches:children]
+CE
+switches

@@ -1,0 +1,22 @@
+---
+
+- name: Automated Testing - Verify Network Deployment
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+
+  tasks:
+
+    - name: Capture output of show ip ospf neighbor
+      ios_command:
+         commands: 
+            - show ip ospf neighbor
+      register: result
+      
+    - name: Verify OSPF session to branch switch is Up
+      assert:
+         that: 
+            - "'10.{{siteid}}.0.254'  or '10.{{siteid}}.0.250' in result.stdout[0]"
+         fail_msg: "OSPF peering between router {{inventory_hostname}} and branch Switch is down, please verify"
+         success_msg: "OSPF peering between router {{inventory_hostname}} and branch switch is up"
+

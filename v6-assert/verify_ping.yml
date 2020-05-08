@@ -1,0 +1,27 @@
+---
+
+- name: Automated Testing - Verify Connectivity Between Branch Switch VLANs
+  connection: network_cli
+  gather_facts: false
+  hosts: switches
+
+  tasks:
+
+    - name: Load Branch VLAN IP's
+      include_vars: file=branch_vlans.yml
+
+    - name: Ping Branch VLANs
+      ios_command:
+         commands: ping "{{item}}" source Vlan10 
+      loop: "{{branch_vlans}}"
+      register: result
+    
+    - debug: var=result
+
+    - name: Verify Ping between Branches
+      assert:
+         that: 
+            - "'!!' in result.results[1].stdout[0]"
+         fail_msg: "Ping failed from  {{inventory_hostname}} to {{result.results[1].item}}"
+         success_msg: "Ping success from {{inventory_hostname}} to {{result.results[1].item}}"
+

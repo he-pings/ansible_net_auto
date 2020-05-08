@@ -1,0 +1,12 @@
+    - name: Ping Branch VLANs
+      ios_command:
+         commands: ping "{{dest_ip}}" source Vlan10 
+      register: result
+      
+    - name: Verify Ping between Branches
+      assert:
+         that:
+            - "'!!!' in result.stdout[0]"
+         fail_msg: "Ping failed from  {{inventory_hostname}} to {{dest_ip}}"
+         success_msg: "Ping success from {{inventory_hostname}} to {{dest_ip}}"
+      ignore_errors: yes

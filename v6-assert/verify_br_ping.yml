@@ -1,0 +1,17 @@
+---
+
+- name: Automated Testing - Verify Connectivity Between Branch Switch VLANs
+  connection: network_cli
+  gather_facts: false
+  hosts: switches
+
+  tasks:
+
+    - name: Load Branch VLAN IP's
+      include_vars: file=branch_vlans.yml
+
+    - name: Ping Branches
+      include_tasks: branch_ping.yml
+      loop: "{{branch_vlans}}"
+      loop_control:
+          loop_var: dest_ip

@@ -1,0 +1,36 @@
+---
+
+- name: Automated Testing - Verify Network Deployment
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+
+  tasks:
+
+    - name: Capture output of show ip bgp neighbor <nei-IP> | inc BGP state
+      ios_command:
+         commands: 
+            - show ip bgp neighbor {{ ansible_net_interfaces['Ethernet0/1']['ipv4'].0['address'] | ipmath(-1) }} | inc BGP state
+      register: result
+      
+    - name: Verify BGP session to s1-r1 is Up
+      assert:
+         that: 
+            - "'Established' in result.stdout[0]"
+         fail_msg: "BGP peering between router {{inventory_hostname}} and router s1-r1 is down, please verify"
+         success_msg: "BGP peering between router {{inventory_hostname}} and router s1-r1 is up"
+      ignore_errors: yes
+
+    - name: Capture output of show ip bgp neighbor <nei-IP> | inc BGP state
+      ios_command:
+         commands: 
+            - show ip bgp neighbor {{ ansible_net_interfaces['Ethernet0/2']['ipv4'].0['address'] | ipmath(-1) }} | inc BGP state
+      register: result
+      
+    - name: Verify BGP session to s1-r2 is Up
+      assert:
+         that: 
+            - "'Established' in result.stdout[0]"
+         fail_msg: "BGP peering between router {{inventory_hostname}} and router s1-r2 is down, please verify"
+         success_msg: "BGP peering between router {{inventory_hostname}} and router s1-r2 is up"
+
