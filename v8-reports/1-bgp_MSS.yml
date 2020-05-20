@@ -1,0 +1,23 @@
+---
+
+- name: BGP Max Data Segment Verification
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+
+  tasks:
+          - name: Show ip bgp neighbors
+            ios_command:
+                    commands:
+                            - "show ip bgp neighbors | inc max data"
+                            - " show ip bgp summary"
+            register: bgp_result
+
+          - set_fact: 
+                    MSS_S1R1: "{{ bgp_result.stdout_lines.0.0.split(' ')}}"
+                    MSS_S1R2: "{{ bgp_result.stdout_lines.0.1.split(' ')}}"
+
+          - debug: var=bgp_result
+            #- debug: var=MSS_S1R1[5]
+            #- debug: var=MSS_S1R2[5]
+

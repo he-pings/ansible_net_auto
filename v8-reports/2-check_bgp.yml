@@ -1,0 +1,34 @@
+---
+
+- name: All CE Routers BGP Verification Reporting
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+
+  tasks:
+          - name: Gather Output from Show ip BGP summary & neighbors
+            ios_command:
+                    commands:
+                            - "show ip bgp summary"
+                            - "show ip bgp neighbors"
+                            - "show ip bgp neighbors | inc max data"
+            register: bgp_result
+
+          - set_fact: 
+                    bgp_summ: "{{ bgp_result.stdout.0 | parse_cli_textfsm('ntc-templates/templates/cisco_ios_show_ip_bgp_summary.textfsm')}}"
+                    bgp_nei: "{{ bgp_result.stdout.1 | parse_cli_textfsm('ntc-templates/templates/cisco_ios_show_ip_bgp_neighbors.textfsm')}}"
+                    MSS_S1R1: "{{ bgp_result.stdout_lines.2.0.split(' ')}}"
+                    MSS_S1R2: "{{ bgp_result.stdout_lines.2.1.split(' ')}}"
+
+                    #      - debug: var=bgp_summ
+                    # - debug: var=bgp_nei
+                    #- debug: var=MSS_S1R1[5]
+                    #- debug: var=MSS_S1R2[5]
+
+          - template:
+                   src: ./failing_bgp_peers.j2
+                   dest: ./output/{{inventory_hostname}}-bgp.out
+
+          - assemble:
+                   src: ./output
+                   dest: ./bgp-report.csv
