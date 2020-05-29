@@ -1,0 +1,56 @@
+---
+
+- name: Demo Handlers
+  connection: network_cli
+  gather_facts: false
+  hosts: ~(s[2-3])-r2
+
+  handlers:
+   - name: restart BGP neighbors
+     ios_command: 
+         commands: 
+             - "clear ip bgp 10.{{siteid}}.0.9"
+             - "clear ip bgp 10.{{siteid}}.0.13"
+     listen: "clear bgp neighbors"
+
+   - name: Save Config
+     ios_config:
+         save_when: always
+     listen: "save config"
+
+  tasks:
+           
+
+    - name: Configure access-list 1
+      ios_config:
+          lines:
+             - "access-list 1 permit 10.{{siteid}}.20.0 0.0.0.255"
+      notify: 
+          - "clear bgp neighbors"
+          - "save config" 
+
+    - name: Configure route_map set-med
+      ios_config:
+          lines:
+             - "match ip address 1"
+             - "set metric 5"
+          parents: "route-map set-med permit 10"
+          after: "route-map set-med permit 20"
+      notify: 
+          - "clear bgp neighbors"
+          - "save config" 
+
+    - name: Prepend AS PAth on OSPF Redistribution
+      ios_bgp:
+          config:
+             bgp_as: "{{65000+siteid}}"
+             address_family:
+                  - afi: ipv4
+                    redistribute:
+                         - protocol: ospf
+                           id: "100"
+                           route_map: set-med
+          operation: merge
+      notify: 
+          - "clear bgp neighbors"
+          - "save config" 
