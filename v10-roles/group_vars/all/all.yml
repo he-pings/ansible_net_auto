@@ -1,0 +1,7 @@
+---
+vlan_id: 50
+vlan_name: server_vlan
+
+ospf:
+        pid: 50
+        area: 50

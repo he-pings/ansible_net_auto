@@ -1,0 +1,5 @@
+---
+# defaults file for deploy_vlans
+ospf:
+        pid: 100
+        area: 1

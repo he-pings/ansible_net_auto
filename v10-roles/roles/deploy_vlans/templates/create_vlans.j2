@@ -1,0 +1,8 @@
+vlan {{ item.id }}
+ name {{ item.name}}
+!
+interface vlan {{ item.id }}
+ip address 10.{{siteid}}.{{item.id}}.1 255.255.255.0
+ip ospf {{ ospf.pid }} area {{ ospf.area}}
+no shutdown
+!

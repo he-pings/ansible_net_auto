@@ -1,0 +1,8 @@
+---
+VLANS:
+     - id: 50
+       name: server_vlan
+     - id: 60
+       name: backup_vlan
+     - id: 70
+       name: mgt_vlan

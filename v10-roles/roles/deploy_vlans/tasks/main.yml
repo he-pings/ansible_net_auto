@@ -1,0 +1,11 @@
+---
+# tasks file for deploy_vlans
+- name: Generate VLAN {{item.id}} with OSPF Conf from Jinja2 Templates
+  template:
+      src: ./templates/create_vlans.j2
+      dest: "~/ansible/v10-roles/output/{{inventory_hostname}}.lan.conf"
+
+- name: Deploy VLAN {{item.id}} with OSPF Conf to Branch SW's
+  ios_config:
+      src: ~/ansible/v10-roles/output/{{inventory_hostname}}.lan.conf
+      save_when: modified

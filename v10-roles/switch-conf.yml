@@ -1,0 +1,20 @@
+---
+- name: Branch LAN Config Generation
+  connection: network_cli
+  gather_facts: false
+  hosts: switches
+
+  tasks:
+         - ios_command:
+                 commands: show run | inc hostname
+           register: output
+
+         - include_role:
+                 name: deploy_vlans
+           loop: "{{ VLANS }}"
+
+         - debug: var=output.stdout[0]
+
+           #roles:
+           # - { role: deploy_vlans, vlan_id: '60', vlan_name: 'backup_vlan'}
+
