@@ -1,0 +1,14 @@
+<macro>
+def check_if_percent(data):
+    words_list = data.split(" ")
+    if "percent" in data:
+        return words_list[0], {"class_bw": words_list[1]}
+    else:
+        return "bandwidth", {"class_bw": words_list[0]}
+</macro>
+
+ <group name="qos_class">
+ class {{ class_name }}
+  {{queue_type | default("bandwidth")}} {{bw_mode | _line_ | macro("check_if_percent") | default("remaining_bw")}}
+  random-detect {{ red_method }}
+ </group>

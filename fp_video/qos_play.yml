@@ -1,0 +1,42 @@
+---
+
+- name: Basic Jinja filter_plugin demo - Parse 'show run | section policy-map <name>'
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+  tasks:
+
+  - name: Capture show run | section policy-map parent
+    ios_command:
+        commands:
+           - "show run | section policy-map parent"
+    register: sh_qos_parent
+
+  - name: Capture show run | section policy-map child
+    ios_command:
+        commands:
+           - "show run | section policy-map child"
+    register: sh_qos_child
+
+  - name: Parent MAP - Use ttp in filter_plugins to parse qos in JSON and set as a fact
+    set_fact:
+        parent_map="{{sh_qos_parent.stdout[0]|QOS('qos_parent.txt')}}"
+
+  - name: Child MAP - Use ttp in filter_plugins to parse qos in JSON and set as a fact
+    set_fact:
+        child_map="{{sh_qos_child.stdout[0]|QOS('qos_child.txt')}}"
+
+  - name: Display qos_parent variable
+    debug: var=parent_map
+
+  - name: Display qos_child variable
+    debug: var=child_map
+
+  - name: Generate Qos Report from Jinja2 Templates
+    template:
+        src: ./templates/qos-report.j2
+        dest: "./output/{{inventory_hostname}}.qos_report.txt"
+
+  - assemble:
+        src: ./output
+        dest: ./qos-report.csv

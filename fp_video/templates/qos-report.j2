@@ -1,0 +1,24 @@
+{% macro calc_bw(parent_bw, bw_mode, child_bw) %}
+{% if (bw_mode == "percent") -%}
+{{((parent_bw|int * child_bw|int)/100)|round|int}}
+{% else %}
+{{((child_bw|int)*1000)|round|int}}
+{% endif %}
+{% endmacro -%}
+
+{{ inventory_hostname}},parent_map,{{ parent_map.0['qos_class']['class_name']}},{{parent_map.0['queue_type']|default('bandwidth')}},{{ parent_map.0['qos_class']['class_bw'] }}
+{% set ns = namespace (def_bw = 0) -%}
+{% for qos_conf in child_map.0['qos_class'] -%}
+
+{%- if (qos_conf.class_name != "class-default") -%}
+{{ inventory_hostname}},child_map,{{qos_conf.class_name}},{{qos_conf.queue_type}},{{ calc_bw(parent_map.0['qos_class']['class_bw'],qos_conf.bw_mode,qos_conf.class_bw) }}
+
+{%- set ns.def_bw = ns.def_bw + calc_bw(parent_map.0['qos_class']['class_bw'],qos_conf.bw_mode,qos_conf.class_bw)|int -%}
+
+{%- else -%}
+
+{%- set ns.def_bw = parent_map.0['qos_class']['class_bw']|int - ns.def_bw -%}
+{{ inventory_hostname}},child_map,{{ qos_conf.class_name}},{{qos_conf.queue_type}},{{ns.def_bw}}
+
+{%- endif -%}
+{%- endfor -%}

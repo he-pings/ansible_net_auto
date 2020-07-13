@@ -1,0 +1,5 @@
+ <group name="qos_class">
+ class {{ class_name }}
+  shape average {{ class_bw }}
+   service-policy {{ child_policy }}
+ </group>

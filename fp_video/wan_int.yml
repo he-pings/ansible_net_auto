@@ -1,0 +1,22 @@
+---
+
+- name: Basic Jinja filter_plugin demo - Capture Wan Interface
+  connection: network_cli
+  gather_facts: false
+  hosts: CE
+
+  tasks:
+  - name: Capture 'show ver'
+    ios_command:
+        commands:
+           - "sh ver"
+    register: sh_ver
+
+  - name: Capture Router WAN Interface and set as a fact
+    set_fact:
+        wan_interface="{{sh_ver.stdout[0]|WAN_INT}}"
+
+  - name: Display wan_interface variable
+    debug: var=wan_interface
+
+

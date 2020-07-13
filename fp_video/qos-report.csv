@@ -1,0 +1,17 @@
+Router,Policy-Map,Class-Map,Queue-Type,Queue-Bandwidth(bps)
+s2-r1,parent_map,class-default,bandwidth,10000000
+s2-r1,child_map,gold,priority,3000000
+s2-r1,child_map,silver,bandwidth,2500000
+s2-r1,child_map,class-default,bandwidth,4500000
+s2-r2,parent_map,class-default,bandwidth,20000000
+s2-r2,child_map,gold,priority,6000000
+s2-r2,child_map,silver,bandwidth,6000000
+s2-r2,child_map,class-default,bandwidth,8000000
+s3-r1,parent_map,class-default,bandwidth,100000000
+s3-r1,child_map,gold,priority,30000000
+s3-r1,child_map,silver,bandwidth,60000000
+s3-r1,child_map,class-default,bandwidth,10000000
+s3-r2,parent_map,class-default,bandwidth,100000000
+s3-r2,child_map,gold,priority,30000000
+s3-r2,child_map,silver,bandwidth,60000000
+s3-r2,child_map,class-default,bandwidth,10000000

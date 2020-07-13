@@ -1,0 +1,4 @@
+s2-r2,parent_map,class-default,bandwidth,20000000
+s2-r2,child_map,gold,priority,6000000
+s2-r2,child_map,silver,bandwidth,6000000
+s2-r2,child_map,class-default,bandwidth,8000000
