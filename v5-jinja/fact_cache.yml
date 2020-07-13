@@ -1,7 +1,0 @@
----
-- name: Cache Device Facts to ./fact_cache directory
-  connection: network_cli
-  gather_facts: true
-  hosts: all
-  tasks:
-
